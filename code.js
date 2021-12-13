@@ -1,56 +1,81 @@
-console.log("Rock, Paper, Scissors");
 let computerScore = 0;
 let playerScore = 0;
+const result = document.querySelector('#result');
+const scoreDisplay = document.querySelector('#score');
+const reset = document.querySelector('#reset')
 
-function game() {
-    // runs fullGame function until score reaches 5 for one of the players
-    if (playerScore === 5) {
-        console.log("Player wins. Congrats!");
-        alert("Player wins. Congrats!");
-    } else if (computerScore === 5) {
-        console.log("Computer wins. Try again.");
-        alert("Computer wins. Try again.");
+result.textContent = "Make your move! First to five wins the game.";
+
+scoreDisplay.textContent = 
+    ("Computer Score: " + computerScore + " " +
+    "Player Score: " + playerScore);
+
+const buttons = document.querySelectorAll('#choice');
+buttons.forEach((button) => {button.addEventListener('click', () => {
+    let playerSelection = button.className;
+    if (computerScore > 4 || playerScore > 4) {
+        console.log("greater than 4")
+        scoreCheck()
     } else {
-        fullGame();
-    }
+        console.log("less than four")
+        fullGame(playerSelection);
+        scoreCheck();
+    } 
+    
+  });
+});
+
+reset.addEventListener('click', () => {
+    resetGame();
+});
+
+
+// Game Functions
+
+
+function resetGame() {
+computerScore = 0
+playerScore = 0
+scoreDisplay.textContent = 
+            ("Computer Score: " + computerScore + " " + 
+            "Player Score: " + playerScore);
+result.textContent = "Make your move! First to five wins the game.";
+reset.textContent = ("Reset");
 }
 
-function fullGame() {
+function scoreCheck() {
+    if (playerScore > 4) {
+        result.textContent = "Player wins. Congrats!";
+        scoreDisplay.textContent = 
+            ("Final score. Computer: " + computerScore + " " + 
+            "Player: " + playerScore);
+        reset.textContent = ("Play again.");
+    } else if (computerScore > 4) {
+        result.textContent = "Computer wins. Try again.";
+        scoreDisplay.textContent = 
+            ("Final score. Computer: " + computerScore + " " + 
+            "Player: " + playerScore);
+        reset.textContent = ("Play again.");
+    } else { 
+        return(scoreDisplay.textContent = 
+            ("Computer Score: " + computerScore + " " + 
+            "Player Score: " + playerScore));
+    } 
+}
+
+function fullGame(x) {
     // takes the result of a single round of the game and adds a point to the winning player's score.
-    let result = singleRound();
-    console.log(result);
+    let resultOf = singleRound(x);
 
-    if (result === "Win. Rock beats scissors.") {
+    if (resultOf === "Win") {
         playerScore = playerScore + 1;
-    } else if (result === "Win. Paper beats rock.") {
-        playerScore = playerScore + 1;
-    } else if (result === "Win. Scissors beats paper.") {
-        playerScore = playerScore + 1;
-    } else if (result === "Loss. Rock beats scissors.") {
+        console.log("Score is Comp: " + computerScore + " and player: " + playerScore)  
+    } else if (resultOf === "Loss") {
         computerScore = computerScore + 1;
-    } else if (result === "Loss. Paper beats rock.") {
-        computerScore = computerScore + 1;
-    } else if (result === "Loss. Scissors beats paper.") {
-        computerScore = computerScore + 1;
+        console.log("Score is Comp: " + computerScore + " and player: " + playerScore)   
     } else {
+        return("tie")
     }
-
-    console.log(
-        "Score is: Player - " +
-            playerScore +
-            " and Computer - " +
-            computerScore +
-            "."
-    );
-    alert(
-        result +
-            " Player: " +
-            playerScore +
-            "  Computer:  " +
-            computerScore +
-            "."
-    );
-    game();
 }
 
 function computerPlay() {
@@ -65,37 +90,43 @@ function computerPlay() {
     }
 }
 
-function singleRound() {
+function singleRound(x) {
     // Player makes move and that move is compared to the computer move to determine the winner.
-    let playerSelection = prompt('Choose "Rock", "Paper" or "Scissors"');
     let move = computerPlay();
-    if (playerSelection.toUpperCase() === "Rock".toUpperCase()) {
-        if (move.toUpperCase() === "Rock".toUpperCase()) {
-            return "Tie.";
-        } else if (move.toUpperCase() === "Paper".toUpperCase()) {
-            return "Loss. Paper beats rock.";
+    if (x === "rock") {
+        if (move === "Rock") {
+            result.textContent = "Computer chose Rock. Tie"
+            return("Tie")
+        } else if (move === "Paper") {
+            result.textContent = "Computer chose Paper. Computer wins round."
+            return("Loss")
         } else {
-            return "Win. Rock beats scissors.";
+            result. textContent = "Computer chose scissors. Player wins round."
+            return("Win")
         }
     }
-    if (playerSelection.toUpperCase() === "Paper".toUpperCase()) {
-        if (move.toUpperCase() === "Rock".toUpperCase()) {
-            return "Win. Paper beats rock.";
-        } else if (move.toUpperCase() === "Paper".toUpperCase()) {
-            return "Tie.";
+    if (x === "paper") {
+        if (move === "Rock") {
+            result.textContent = "Computer chose Rock. Player wins rounds"
+            return("Win")
+        } else if (move === "Paper") {
+            result.textContent = "Computer chose paper. Tie."
+            return("Tie")
         } else {
-            return "Loss. Scissors beats paper.";
+            result.textContent = "Computer chose scissors. Computer wins round."
+            return("Loss")
         }
     }
-    if (playerSelection.toUpperCase() === "Scissors".toUpperCase()) {
-        if (move.toUpperCase() === "Rock".toUpperCase()) {
-            return "Loss. Rock beats scissors.";
-        } else if (move.toUpperCase() === "Paper".toUpperCase()) {
-            return "Win. Scissors beats paper.";
+    if (x === "scissors") {
+        if (move === "Rock") {
+            result.textContent = "Computer chose Rock. Computer wins round"
+            return("Loss")
+        } else if (move  === "Paper") {
+            result. textContent = "Computer chose paper. Player wins round."
+            return("Win")
         } else {
-            return "Tie.";
+            result.textContent = "Computer chose scissors. Tie."
+            return("Tie")
         }
     }
 }
-
-game();

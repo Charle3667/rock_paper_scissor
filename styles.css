@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: beige;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+h3 {
+    display: flex;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#choice {
+    color: white;
+    background-color: turquoise;
+    width: 300px;
+    height: 100px;
+    margin-left: 10px;
+    border-radius: 10px;;
+}
+
+#result {
+    display: flex;
+    justify-content: center;
+    font-size: larger;
+    font-weight: bold;
+}
+#score {
+    display: flex;
+    justify-content: center; 
+    font-size: larger;
+    font-weight: bold;
+}
+
+#resetButton {
+    display: flex;
+    justify-content: center; 
+}
+
+#reset {
+    color: white;
+    background-color: blueviolet;
+}
