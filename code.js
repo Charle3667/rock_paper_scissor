@@ -1,5 +1,7 @@
 let computerScore = 0;
 let playerScore = 0;
+let round = 0
+let numberArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 const result = document.querySelector('#result');
 const scoreDisplay = document.querySelector('#score');
 const reset = document.querySelector('#reset')
@@ -20,6 +22,7 @@ buttons.forEach((button) => {button.addEventListener('click', () => {
         console.log("less than four")
         fullGame(playerSelection);
         scoreCheck();
+        winner();
     } 
     
   });
@@ -32,30 +35,40 @@ reset.addEventListener('click', () => {
 
 // Game Functions
 
+let winner = function() {
+    if (playerScore > computerScore) {
+        scoreDisplay.style.color = "green";
+    } else if (playerScore < computerScore) {
+        scoreDisplay.style.color = "red";
+    } else {scoreDisplay.style.color = "#605C4E"}
+}
 
 function resetGame() {
 computerScore = 0
 playerScore = 0
+round = 0
 scoreDisplay.textContent = 
             ("Computer Score: " + computerScore + " " + 
             "Player Score: " + playerScore);
 result.textContent = "Make your move! First to five wins the game.";
 reset.textContent = ("Reset");
+result.style.borderColor = "grey";
+scoreDisplay.style.color = "#605C4E";
 }
 
 function scoreCheck() {
     if (playerScore > 4) {
-        result.textContent = "Player wins. Congrats!";
+        result.textContent = "Player wins on round " + numberArray[round] + ". Congrats!";
         scoreDisplay.textContent = 
             ("Final score. Computer: " + computerScore + " " + 
             "Player: " + playerScore);
-        reset.textContent = ("Play again.");
+        reset.textContent = ("Play again");
     } else if (computerScore > 4) {
-        result.textContent = "Computer wins. Try again.";
+        result.textContent = "Computer wins on round " + numberArray[round] + ". Try again.";
         scoreDisplay.textContent = 
             ("Final score. Computer: " + computerScore + " " + 
             "Player: " + playerScore);
-        reset.textContent = ("Play again.");
+        reset.textContent = ("Play again");
     } else { 
         return(scoreDisplay.textContent = 
             ("Computer Score: " + computerScore + " " + 
@@ -93,39 +106,49 @@ function computerPlay() {
 function singleRound(x) {
     // Player makes move and that move is compared to the computer move to determine the winner.
     let move = computerPlay();
+    round = (round + 1)
     if (x === "rock") {
         if (move === "Rock") {
-            result.textContent = "Computer chose Rock. Tie"
+            result.textContent = "Computer chose Rock. Round " + numberArray[round] + " tie.";
+            result.style.borderColor = "yellow";
             return("Tie")
         } else if (move === "Paper") {
-            result.textContent = "Computer chose Paper. Computer wins round."
+            result.textContent = "Computer chose Paper. Computer wins round " + numberArray[round] + ".";
+            result.style.borderColor = "red";
             return("Loss")
         } else {
-            result. textContent = "Computer chose scissors. Player wins round."
+            result. textContent = "Computer chose scissors. Player wins round " + numberArray[round] + "."
+            result.style.borderColor = "green";
             return("Win")
         }
     }
     if (x === "paper") {
         if (move === "Rock") {
-            result.textContent = "Computer chose Rock. Player wins rounds"
+            result.textContent = "Computer chose Rock. Player wins round " + numberArray[round] + ".";
+            result.style.borderColor = "green";
             return("Win")
         } else if (move === "Paper") {
-            result.textContent = "Computer chose paper. Tie."
+            result.textContent = "Computer chose paper. Round " + numberArray[round] + " tie."
+            result.style.borderColor = "yellow";
             return("Tie")
         } else {
-            result.textContent = "Computer chose scissors. Computer wins round."
+            result.textContent = "Computer chose scissors. Computer wins round " + numberArray[round] + "."
+            result.style.borderColor = "red";
             return("Loss")
         }
     }
     if (x === "scissors") {
         if (move === "Rock") {
-            result.textContent = "Computer chose Rock. Computer wins round"
+            result.textContent = "Computer chose Rock. Computer wins round " + numberArray[round] + "."
+            result.style.borderColor = "red";
             return("Loss")
         } else if (move  === "Paper") {
-            result. textContent = "Computer chose paper. Player wins round."
+            result. textContent = "Computer chose paper. Player wins round " + numberArray[round] + ".";
+            result.style.borderColor = "green";
             return("Win")
         } else {
-            result.textContent = "Computer chose scissors. Tie."
+            result.textContent = "Computer chose scissors. Round " + numberArray[round] + " tie.";
+            result.style.borderColor = "yellow";
             return("Tie")
         }
     }
